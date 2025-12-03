@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Marks Extraction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        /* Custom styles for dark mode */
+        .dark {
+            background-color: #1a202c; /* dark gray */
+            color: #e2e8f0; /* light gray text */
+        }
+        .dark .bg-gray-100 {
+            background-color: #1a202c;
+        }
+        .dark .bg-white {
+            background-color: #2d3748; /* darker cards */
+        }
+        .dark .text-gray-800 {
+            color: #e2e8f0;
+        }
+        .dark .text-gray-900 {
+            color: #ffffff;
+        }
+        .dark .text-gray-700 {
+            color: #cbd5e1;
+        }
+        .dark .text-gray-500 {
+            color: #a0aec0;
+        }
+        .dark .border-b, .dark .border {
+            border-color: #4a5568;
+        }
+        .dark .shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+        }
+        .dark .hover\:shadow-xl:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .file-input-label {
+            cursor: pointer;
+            border: 2px dashed #cbd5e1;
+            padding: 2.5rem;
+            transition: all 0.3s;
+        }
+        .file-input-label:hover {
+            border-color: #4a90e2;
+            background-color: #f0f8ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="flex items-center mb-8 pb-4 border-b border-gray-300">
+            <a href="/" class="text-blue-600 hover:text-blue-800 mr-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Start New Extraction</h1>
+                <p class="text-sm text-gray-500">Upload rubric and answer scripts to begin.</p>
+            </div>
+
+            <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H2m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+        </header>
+
+        <main class="max-w-4xl mx-auto">
+            <form id="extraction-form" class="space-y-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-3">1</span>
+                        Upload Subject Rubric
+                    </h2>
+                    <p class="text-gray-600 mb-4">Upload the rubric file (e.g., CSV, Excel) that maps question numbers to Course Outcomes (COs) and Program Outcomes (POs).</p>
+                    <label for="rubric-upload" class="file-input-label block w-full text-center rounded-lg">
+                        <span id="rubric-text" class="text-gray-500">Click to upload or drag & drop</span>
+                        <input type="file" id="rubric-upload" class="hidden" accept=".csv, .xlsx, .xls">
+                    </label>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="bg-blue-600 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold mr-3">2</span>
+                        Upload Answer Scripts
+                    </h2>
+                    <p class="text-gray-600 mb-4">Upload one or more answer script images (front page only). Supported formats: JPG, PNG.</p>
+                    <label for="scripts-upload" class="file-input-label block w-full text-center rounded-lg">
+                        <span id="scripts-text" class="text-gray-500">Click to upload or drag & drop</span>
+                        <input type="file" id="scripts-upload" class="hidden" multiple accept="image/png, image/jpeg">
+                    </label>
+                    <div id="preview-area" class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+                </div>
+                
+                <div class="flex justify-end pt-4">
+                     <button type="submit" class="bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-green-700 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed" id="process-btn" disabled>
+                        Process Scripts
+                    </button>
+                </div>
+            </form>
+            
+            <div id="results-area" class="hidden mt-8 bg-white p-6 rounded-xl shadow-lg">
+                 <h2 class="text-xl font-bold text-gray-800 mb-4">Processing Complete!</h2>
+                 <p class="text-gray-600">The marks have been extracted and mapped. A detailed report has been generated.</p>
+                 </div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
