@@ -72,13 +72,13 @@ def process_files_route():
         for script in script_files:
             img_path = os.path.join(UPLOAD_FOLDER, script.filename)
             script.save(img_path)
-            print(f"🔍 Processing {img_path} ...")
+            print(f"Processing {img_path} ...")
 
             data = extract_exam_data(img_path, output_excel=None)
             os.remove(img_path)
 
             if not data:
-                print(f"⚠️ No data extracted from {script.filename}")
+                print(f" No data extracted from {script.filename}")
                 continue
 
             if not extracted_course_title and data.get("Course Title"):
@@ -146,7 +146,7 @@ def process_files_route():
         subject_code, subject_title, subject_name = infer_subject_from_extracted_details(
             extracted_course_title, extracted_course_code
         )
-        print(f"📘 Detected Subject: {subject_code} - {subject_title}")
+        print(f"Detected Subject: {subject_code} - {subject_title}")
 
         # Sanitize filename
         safe_name = re.sub(r'[^A-Z0-9_]', '', subject_name.upper())
@@ -160,13 +160,13 @@ def process_files_route():
                 combined_df = pd.concat([existing_df, new_df], ignore_index=True)
                 combined_df.drop_duplicates(subset=["Register Number", "Q.No"], keep="last", inplace=True)
             except Exception as e:
-                print(f"⚠️ Could not merge existing data: {e}")
+                print(f"Could not merge existing data: {e}")
                 combined_df = new_df
         else:
             combined_df = new_df
 
         combined_df.to_excel(excel_path, index=False)
-        print(f"✅ Saved: {excel_path}")
+        print(f"Saved: {excel_path}")
 
         return jsonify({
             "status": "success",
@@ -176,7 +176,7 @@ def process_files_route():
         })
 
     except Exception as e:
-        print(f"❌ SERVER ERROR: {e}")
+        print(f"SERVER ERROR: {e}")
         return jsonify({"error": f"Server Error: {str(e)}"}), 500
 
 
@@ -199,7 +199,7 @@ def get_results_route(subject_name):
 
         try:
             df = pd.read_excel(excel_path)
-            # ✅ Sanitize DataFrame before returning JSON
+            # Sanitize DataFrame before returning JSON
             df = df.fillna("")
             df = df.replace({float("inf"): "", float("-inf"): ""}, regex=False)
             for col in df.columns:
@@ -207,11 +207,11 @@ def get_results_route(subject_name):
             return jsonify(df.to_dict("records"))
 
         except Exception as e:
-            print(f"⚠️ Error reading Excel ({excel_path}): {e}")
+            print(f"Error reading Excel ({excel_path}): {e}")
             return jsonify({"error": f"Failed to read Excel file: {str(e)}"}), 500
 
     except Exception as e:
-        print(f"❌ Unexpected error in /results/{subject_name}: {e}")
+        print(f"Unexpected error in /results/{subject_name}: {e}")
         return jsonify({"error": f"Unexpected server error: {str(e)}"}), 500
 
 
@@ -235,7 +235,7 @@ def list_subjects():
         try:
             pd.read_excel(file_path, nrows=1)
         except Exception as e:
-            print(f"⚠️ Corrupted Excel detected: {file} — {e}")
+            print(f"Corrupted Excel detected: {file} — {e}")
             status = "Corrupted"
 
         subjects.append({
