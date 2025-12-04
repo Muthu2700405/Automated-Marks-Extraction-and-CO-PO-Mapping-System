@@ -38,14 +38,14 @@ def extract_exam_data(image_path: str, output_excel: str = None):
             ]
         )
     except Exception as e:
-        print(f"⚠️ Gemini API error: {e}")
+        print(f"Gemini API error: {e}")
         return None
 
     try:
         json_str = re.search(r"\{.*\}", response.text, re.DOTALL).group()
         data = json.loads(json_str)
     except Exception:
-        print("⚠️ Could not parse JSON. Raw output:\n", response.text)
+        print("Could not parse JSON. Raw output:\n", response.text)
         return None
 
     if output_excel:
